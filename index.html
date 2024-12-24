@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+   <meta charset='UTF-8'>
+   <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+   <!-- <link rel="stylesheet" href="./css/bootstrap.css"> -->
+   <link rel='stylesheet' href='./css/index.css'>
+   <script src='./js/index.js' defer type="module"></script>
+   <title>Document</title>
+</head>
+
+<body>
+   <div class="container">
+      <div class="kegly"></div>
+
+      <div class="ball"></div>
+   </div>
+   <style>
+      .custom-select {
+         position: relative;
+         display: inline-block;
+         width: 200px;
+      }
+   
+      .custom-select select {
+         width: 100%;
+         padding: 10px;
+         appearance: none;
+         -webkit-appearance: none;
+         -moz-appearance: none;
+         background: #fff;
+         border: 1px solid #ccc;
+         border-radius: 4px;
+      }
+   
+      .custom-select::after {
+         content: '▼';
+         position: absolute;
+         top: 50%;
+         right: 10px;
+         transform: translateY(-50%);
+         pointer-events: none;
+      }
+   </style>
+   
+   
+  
+      <div class="custom-select">
+         <select>
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="3">Option 3</option>
+         </select>
+      </div>
+      <div class="parent">
+         <span id="span1" data-action="click">1</span>
+         <span id="span2" data-action="click">2</span>
+      </div>
+      <div class="parent1">
+         <span id="span3" data-action="click">3</span>
+
+      </div>
+      <script>
+         // const spanList = document.querySelectorAll('[data-action="click"]')
+         
+         function f1(span){
+            console.log(span.textContent);
+         }
+
+         document.addEventListener('click', e => {
+            const current = e.target
+            if(current.dataset.action === "click"){
+               f1(current)
+            }
+         })
+         // spanList.forEach(span => {
+         //    span.addEventListener('click', () => {
+         //       f1(span)
+         //    })
+         // })
+      </script>
+   <!-- <script>
+      const images = ['../images/ellips.png', '../images/rose.png', '../images/star.png']
+
+      const changeBg = () => {
+         const bg = document.querySelector('.bg')
+         for (let i = 0; i < images.length; i++) {
+            setTimeout(() => {
+               bg.style.backgroundImage = `url(${images[i]})`
+            }, 1000 * (i + 1))
+         }
+
+      }
+
+      document.addEventListener('DOMContentLoaded', changeBg)
+   </script> -->
+</body>
+<html />

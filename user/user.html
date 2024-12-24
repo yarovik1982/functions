@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="./css/user.css">
+   <script type="module" src="./js/user.js" defer></script>
+   <title>Document</title>
+</head>
+
+<body>
+   <header class="header">
+      <div class="container">
+         <nav class="nav">
+            <div class="nav-user">
+               <button class="nav-user-btn" id="login">login</button>
+               <button class="nav-user-btn" id="register">register</button>
+            </div>
+         </nav>
+      </div>
+   </header>
+   <section id="form">
+      <div class="container">
+         <!-- <form class="form" data-id="login">
+            <div class="form-header">
+               <h3>авторизация</h3>
+               <span class="form-close">&times;</span>
+            </div>
+            <div class="form-body">
+               <div class="form-row">
+                  <label for="l-email" class="form-label">Email</label>
+                  <input type="email" class="form-input" name="email" id="l-email">
+               </div>
+               <div class="form-row">
+                  <label for="l-login" class="form-label">login</label>
+                  <input type="text" class="form-input" name="login" id="l-login">
+               </div>
+               <div class="form-row">
+                  <label for="l-password" class="form-label">password</label>
+                  <input type="password" class="form-input" name="password" id="l-password">
+               </div>
+            </div>
+            <!-- <hr color="blue"> -->
+         <!-- <div class="form-footer">
+               <button id="l-submit" class="form-submit" type="submit">Submit</button>
+            </div>
+         </form> -->
+         <form class="form" data-id="register">
+            <div class="form-header">
+               <h3>Заполнить заявку</h3>
+               <span class="form-close">&times;</span>
+            </div>
+            <div class="form-body">
+               <div class="form-row">
+                  <label for="fio" class="form-label">ФИО</label>
+                  <input type="text" class="form-input" name="fio" id="fio">
+               </div>
+               <!-- <div class="form-row">
+                  <label for="login" class="form-label">login</label>
+                  <input type="text" class="form-input" name="login" id="login">
+               </div>
+               <div class="form-row">
+                  <label for="password" class="form-label">password</label>
+                  <input type="password" class="form-input" name="password" id="password">
+               </div>
+            </div> -->
+               <!-- <hr color="blue"> -->
+               <div class="form-footer">
+                  <button id="submit" class="form-submit" type="submit">Submit</button>
+               </div>
+         </form>
+         <div class="form-row">
+            <div class="out"></div>
+            <div class="script"></div>
+         </div>
+      </div>
+   </section>
+   <div class="bg">
+
+   </div>
+   <!-- <section id="animation">
+      <div class="container">
+         <div class="eye">
+            <div class="eye-animate"></div>
+         </div>
+      </div>
+   </section> -->
+   <style>
+      .phone {
+         display: flex;
+         align-items: center;
+         width: 400px;
+         border: 1px solid #000;
+         height: 40px;
+      }
+
+      select {
+         height: 100%;
+         border: 0;
+      }
+
+      input {
+         height: 100%;
+         border: 0;
+         outline: none;
+         padding-left: 10px;
+      }
+   </style>
+   <div class="phone">
+      <select name="codes" id="codes">
+         <option value="+7" data-default="+7 RU">+7 RU</option>
+         <option value="+4" data-default="+4 EN">+4 EN</option>
+         <option value="+380" data-default="+380 UA">+380 UA</option>
+      </select>
+      <input type="text" id="tel" maxlength="10">
+   </div>
+   <script src="https://unpkg.com/imask"></script>
+
+
+
+   <script>
+      const select = document.querySelector('#codes');
+      const input = document.getElementById('tel')
+
+      // const element = document.getElementById('selector');
+      // const maskOptions = {
+      //    mask: '000 000 00 00'
+      // };
+      // const mask = IMask(input, maskOptions);
+
+
+      select.addEventListener('change', () => {
+         const options = select.options;
+         for (let i = 0; i < options.length; i++) {
+            const option = options[i];
+            if (option.selected) {
+               option.textContent = option.value;
+            } else {
+               option.textContent = option.getAttribute('data-default');
+            }
+         }
+      });
+
+      function formattedInput(){
+         let number = input.value.replace(/\D/g, '')
+         if(number.length === 10){
+            number = number.replace(/(\d{3})(\d{3})(\d{2})(\d{2})/, '$1 $2 $3 $4')
+         }
+         input.value = number
+      }
+
+      input.addEventListener('input', formattedInput)
+   </script>
+</body>
+
+</html>

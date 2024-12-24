@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+   <meta charset='UTF-8'>
+   <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+   <link rel='stylesheet' href='./css/index.css'>
+   <script src='./js/index.js' defer type="module"></script>
+   <title>Document</title>
+</head>
+
+<body>
+   <div class='wrapper'>
+      <header class='header'>
+         <div class='container header-container'>
+            <div class="tools">
+               <select name="figurType" id="figurType">
+                  <option value="rect">Rect</option>
+                  <option value="ellips">Ellips</option>
+               </select>
+               <button id="save">Save</button>
+            </div>
+         </div>
+      </header>
+      <main class='main'>
+         <div class="container main-container" id="mainContainer">
+            <canvas id="canvas"></canvas>
+         </div>
+      </main>
+      <footer class='footer'>
+         <div class="container">
+            <p class="text">
+               Далеко-далеко за словесными горами, в стране гласных и согласных живут рыбные тексты.
+               <button class="info">i</button>
+            </p>
+         </div>
+      </footer>
+   </div>
+   <script>
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+      const select = document.getElementById('figurType');
+      const saveButton = document.getElementById('save');
+      let isDrawing = false;
+      let startX, startY;
+      const shapes = [];
+
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+
+      canvas.addEventListener('mousedown', (e) => {
+         isDrawing = true;
+         startX = e.offsetX;
+         startY = e.offsetY;
+      });
+
+      canvas.addEventListener('mousemove', (e) => {
+         if (!isDrawing) return;
+         const currentX = e.offsetX;
+         const currentY = e.offsetY;
+         const width = currentX - startX;
+         const height = currentY - startY;
+
+         ctx.clearRect(0, 0, canvas.width, canvas.height);
+         redrawShapes();
+         ctx.beginPath();
+         const shapeType = select.value;
+         if (shapeType === 'ellips') {
+            ctx.ellipse(startX, startY, Math.abs(width) / 2, Math.abs(height) / 2, 0, 0, 2 * Math.PI);
+         } else {
+            ctx.rect(startX, startY, width, height);
+         }
+         ctx.strokeStyle = 'black';
+         ctx.lineWidth = 1;
+         ctx.stroke();
+      });
+
+      canvas.addEventListener('mouseup', (e) => {
+         if (!isDrawing) return;
+         const currentX = e.offsetX;
+         const currentY = e.offsetY;
+         const width = currentX - startX;
+         const height = currentY - startY;
+         shapes.push({ type: select.value, x: startX, y: startY, width, height });
+         isDrawing = false;
+      });
+
+      canvas.addEventListener('mouseleave', () => {
+         isDrawing = false;
+      });
+
+      saveButton.addEventListener('click', () => {
+         const dataURL = canvas.toDataURL('image/png');
+         const link = document.createElement('a');
+         link.href = dataURL;
+         link.download = 'canvas-image.png';
+         link.click();
+      });
+
+      function redrawShapes() {
+         shapes.forEach(shape => {
+            ctx.beginPath();
+            if (shape.type === 'ellips') {
+               ctx.ellipse(shape.x, shape.y, Math.abs(shape.width) / 2, Math.abs(shape.height) / 2, 0, 0, 2 * Math.PI);
+            } else {
+               ctx.rect(shape.x, shape.y, shape.width, shape.height);
+            }
+            ctx.strokeStyle = 'black';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+         });
+      }
+   </script>
+</body>
+<html />

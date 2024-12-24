@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Effect</title>
+   <style>
+      .container{
+         max-width: 400px;
+         margin: 20px auto;
+         display: flex;
+         flex-direction: column;
+      }
+      .message {
+         padding: 10px;
+         border: 1px solid #ccc;
+         margin: 5px;
+         display: inline-block;
+         position: relative;
+      }
+
+      .context-menu {
+         display: none;
+         position: absolute;
+         background-color: white;
+         border: 1px solid #ccc;
+         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+
+      .context-menu-item {
+         padding: 8px 12px;
+         cursor: pointer;
+      }
+
+      .context-menu-item:hover {
+         background-color: #f0f0f0;
+      }
+
+      .particle {
+         position: absolute;
+         width: 2px;
+         height: 2px;
+         background-color: #000;
+      }
+   </style>
+</head>
+
+<body>
+   <div class="container">
+      <div class="message" id="message1">Это сообщение 1</div>
+      <div class="message" id="message2">Это сообщение 2</div>
+   </div>
+
+   <div class="context-menu" id="contextMenu">
+      <div class="context-menu-item" id="deleteItem">Удалить</div>
+   </div>
+
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+   <script>
+      document.addEventListener('contextmenu', function (event) {
+         event.preventDefault();
+         const message = event.target;
+         if (message.classList.contains('message')) {
+            const contextMenu = document.getElementById('contextMenu');
+            contextMenu.style.top = `${event.clientY}px`;
+            contextMenu.style.left = `${event.clientX}px`;
+            contextMenu.style.display = 'block';
+            contextMenu.dataset.messageId = message.id;
+         }
+      });
+
+      document.addEventListener('click', function () {
+         const contextMenu = document.getElementById('contextMenu');
+         contextMenu.style.display = 'none';
+      });
+
+      document.getElementById('deleteItem').addEventListener('click', function () {
+         const messageId = document.getElementById('contextMenu').dataset.messageId;
+         const message = document.getElementById(messageId);
+         createParticles(message);
+      });
+
+      function createParticles(element) {
+         const rect = element.getBoundingClientRect();
+         const particles = [];
+         for (let i = 0; i < 100; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = `${rect.left + Math.random() * rect.width}px`;
+            particle.style.top = `${rect.top + Math.random() * rect.height}px`;
+            document.body.appendChild(particle);
+            particles.push(particle);
+         }
+         gsap.to(particles, {
+            duration: 2,
+            x: () => Math.random() * 200 - 100,
+            y: () => Math.random() * 200 - 100,
+            opacity: 0,
+            onComplete: () => particles.forEach(p => p.remove())
+         });
+         element.style.visibility = 'hidden';
+      }
+   </script>
+</body>
+
+</html>
